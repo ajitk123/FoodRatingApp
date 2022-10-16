@@ -1,10 +1,13 @@
 import { Realm } from "@realm/react";
-export class Task extends Realm.Object {
-  static generate(vegRating, description, userId) {
+
+export class UserProfile extends Realm.Object {
+  static generate(firstName, lastName, userName, Password, userId) {
     return {
       _id: new Realm.BSON.ObjectId(),
-      description,
-      vegRating,
+      firstName,
+      lastName,
+      userName,
+      Password,
       createdAt: new Date(),
       userId: userId || "_SYNC_DISABLED_",
     };
@@ -12,13 +15,14 @@ export class Task extends Realm.Object {
 
   // To use a class as a Realm object type, define the object schema on the static property "schema".
   static schema = {
-    name: "Task",
+    name: "UserProfile",
     primaryKey: "_id",
     properties: {
       _id: "objectId",
-      vegRating: 'int',
-      //overallRating: 'int',
-      description: 'string',
+      firstName: 'string',
+      lastName: 'string',
+      userName: 'string',
+      Password: 'string',
       createdAt: "date",
       userId: "string",
     },

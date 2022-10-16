@@ -1,23 +1,24 @@
-import React, { useCallback } from "react";
-import { View, StyleSheet } from "react-native";
-
+import React, { useCallback, useState } from "react";
+import { View, SafeAreaView, StyleSheet, Modal, Pressable, Text } from "react-native";
+import Icon from 'react-native-vector-icons/Entypo';
 import { Task } from "../models/Task";
 import { TaskRealmContext } from "../models";
-import { IntroText } from "./IntroText";
 import { AddTaskForm } from "./AddTaskForm";
 import TaskList from "./TaskList";
+import { shadows } from "../styles/shadows";
+import colors from "/Users/ajit/ReactRealmJSTemplateApp/app/styles/colors.js";
 
 const { useRealm } = TaskRealmContext;
 
 export const TaskManager = ({ tasks, userId }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const realm = useRealm();
 
   const handleAddTask = useCallback(
-    (description) => {
-      if (!description) {
+    (description, vegRating) => {
+      if (!description || !vegRating) {
         return;
       }
-
       // Everything in the function passed to "realm.write" is a transaction and will
       // hence succeed or fail together. A transcation is the smallest unit of transfer
       // in Realm so we want to be mindful of how much we put into one single transaction
@@ -26,34 +27,10 @@ export const TaskManager = ({ tasks, userId }) => {
       // of sync participants to successfully sync everything in the transaction, otherwise
       // no changes propagate and the transaction needs to start over when connectivity allows.
       realm.write(() => {
-        realm.create("Task", Task.generate(description, userId));
+        realm.create("Task", Task.generate(vegRating, description, userId));
       });
     },
     [realm, userId],
-  );
-
-  const handleToggleTaskStatus = useCallback(
-    (task) => {
-      realm.write(() => {
-        // Normally when updating a record in a NoSQL or SQL database, we have to type
-        // a statement that will later be interpreted and used as instructions for how
-        // to update the record. But in RealmDB, the objects are "live" because they are
-        // actually referencing the object's location in memory on the device (memory mapping).
-        // So rather than typing a statement, we modify the object directly by changing
-        // the property values. If the changes adhere to the schema, Realm will accept
-        // this new version of the object and wherever this object is being referenced
-        // locally will also see the changes "live".
-        task.isComplete = !task.isComplete;
-      });
-
-      // Alternatively if passing the ID as the argument to handleToggleTaskStatus:
-      // realm?.write(() => {
-      //   const task = realm?.objectForPrimaryKey('Task', id); // If the ID is passed as an ObjectId
-      //   const task = realm?.objectForPrimaryKey('Task', Realm.BSON.ObjectId(id));  // If the ID is passed as a string
-      //   task.isComplete = !task.isComplete;
-      // });
-    },
-    [realm],
   );
 
   const handleDeleteTask = useCallback(
@@ -69,21 +46,56 @@ export const TaskManager = ({ tasks, userId }) => {
   );
 
   return (
-    <View style={styles.content}>
-      <AddTaskForm onSubmit={handleAddTask} />
-      {tasks.length === 0 ? (
-        <IntroText />
-      ) : (
-        <TaskList tasks={tasks} onToggleTaskStatus={handleToggleTaskStatus} onDeleteTask={handleDeleteTask} />
-      )}
-    </View>
+    <SafeAreaView style = {styles.content}>
+      <SafeAreaView style={styles.taskList}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <AddTaskForm onSubmit = {handleAddTask} visibleControl = {setModalVisible} />
+        </Modal>
+        <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} />
+      </SafeAreaView>
+    <Pressable onPress={() => setModalVisible(true)} style={styles.modalButton}>
+      <Icon name = "plus" style={styles.icon} color = {colors.purpleDark}/>
+    </Pressable>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  
+  icon: {
+    fontSize:55,
+    fontWeight: "bold",
+  },
+
   content: {
+    flex: 1,
+    marginTop: 40,
+  },
+
+  taskList: {
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: 20,
   },
+
+  modalButton: {
+    flexDirection: 'column',
+    borderRadius: 200,
+    width: 70,
+    height: 70,
+    padding: 5,
+    alignItems: 'center',
+    margin: 30,
+    backgroundColor: colors.white,
+    ...shadows,
+  },
+
 });

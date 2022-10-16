@@ -4,7 +4,7 @@ export const buttonStyles = {
   button: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     marginHorizontal: 10,
     borderRadius: 5,
@@ -16,4 +16,12 @@ export const buttonStyles = {
     fontSize: 17,
     fontWeight: "bold",
   },
+  loginText: {
+    color: colors.white,
+    textAlign: "left",
+    fontSize: 17,
+    fontWeight: "bold",
+    flexDirection: "row",
+    marginHorizontal: 10,
+  }
 };

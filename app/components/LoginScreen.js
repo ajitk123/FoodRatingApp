@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import colors from "../styles/colors";
 import { shadows } from "../styles/shadows";
 import { buttonStyles } from "../styles/button";
 import { Realm, useApp } from "@realm/react";
+import { SignUp } from "./SignUp.js";
+import { navigation } from '@react-navigation/native'
 
 export let AuthState;
 
@@ -11,9 +13,8 @@ export let AuthState;
   AuthState[(AuthState["None"] = 0)] = "None";
   AuthState[(AuthState["Loading"] = 1)] = "Loading";
   AuthState[(AuthState["LoginError"] = 2)] = "LoginError";
-  AuthState[(AuthState["RegisterError"] = 3)] = "RegisterError";
 })(AuthState || (AuthState = {}));
-export const LoginScreen = () => {
+export const LoginScreen = props => {
   const app = useApp();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +40,7 @@ export const LoginScreen = () => {
     setAuthState(AuthState.Loading);
 
     try {
+
       // Register the user...
       await app.emailPasswordAuth.registerUser({ email, password });
       // ...then login with the newly created user
@@ -51,10 +53,11 @@ export const LoginScreen = () => {
       setAuthState(AuthState.RegisterError);
     }
   }, [email, password, setAuthState, app]);
-
+  
   return (
-    <View style={styles.content}>
+    <SafeAreaView style={styles.content}>
       <View style={styles.inputContainer}>
+        <Text style={buttonStyles.loginText}>Email</Text>
         <TextInput
           style={styles.input}
           value={email}
@@ -67,6 +70,7 @@ export const LoginScreen = () => {
         />
       </View>
       <View style={styles.inputContainer}>
+        <Text style={buttonStyles.loginText}>Password</Text>
         <TextInput
           style={styles.input}
           value={password}
@@ -79,10 +83,7 @@ export const LoginScreen = () => {
       </View>
 
       {authState === AuthState.LoginError && (
-        <Text style={[styles.error]}>There was an error logging in, please try again</Text>
-      )}
-      {authState === AuthState.RegisterError && (
-        <Text style={[styles.error]}>There was an error registering, please try again</Text>
+        <Text style={[styles.error]}>Invalid Username or Password, please try again</Text>
       )}
 
       <View style={styles.buttons}>
@@ -93,16 +94,17 @@ export const LoginScreen = () => {
         >
           <Text style={buttonStyles.text}>Login</Text>
         </Pressable>
-
-        <Pressable
-          onPress={handleRegister}
-          style={[styles.button, authState === AuthState.Loading && styles.buttonDisabled, styles.registerButton]}
-          disabled={authState === AuthState.Loading}
-        >
-          <Text style={buttonStyles.text}>Register</Text>
-        </Pressable>
+          <Pressable
+            onPress={() => props.navigation.navigate({name: "Sign Up", key: {SignUp}})}
+            style={{
+              marginTop: 50,
+            }}
+            disabled={authState === AuthState.Loading}
+          >
+            <Text style={buttonStyles.text}>sign up</Text>
+          </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: colors.darkBlue,
+    backgroundColor: 'rgba(0, 204, 104, 1)',
   },
 
   inputContainer: {
@@ -121,27 +123,27 @@ const styles = StyleSheet.create({
   },
 
   error: {
-    textAlign: "center",
+    textAlign: "right",
     marginTop: 10,
     marginBottom: 10,
     fontSize: 14,
-    color: colors.white,
+    color: 'rgb(255,0,0)',
   },
 
   input: {
-    borderWidth: 1,
     borderColor: colors.gray,
-    padding: 10,
+    padding: 15,
     height: 50,
     marginVertical: 8,
     backgroundColor: colors.white,
-    borderRadius: 5,
+    borderRadius: 25,
     ...shadows,
   },
 
   buttons: {
     marginTop: 16,
-    flexDirection: "row",
+    marginBottom: 20,
+    flexDirection: "column",
   },
 
   button: {

@@ -1,30 +1,37 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
-
+import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import { shadows } from "../styles/shadows";
 import colors from "../styles/colors";
+import Icon from 'react-native-vector-icons/EvilIcons';
 
-export const TaskItem = React.memo(({ task, onToggleStatus, onDelete }) => {
+const NUM_OF_LINES = 5;
+
+export const TaskItem = React.memo(({ task, onDelete }) => {
+
+
+
   return (
     <View style={styles.task}>
-      <Pressable onPress={onToggleStatus} style={[styles.status, task.isComplete && styles.completed]}>
-        <Text style={styles.icon}>{task.isComplete ? "✓" : "○"}</Text>
-      </Pressable>
       <View style={styles.descriptionContainer}>
-        <Text numberOfLines={1} style={styles.description}>
+        <View style = {{flexDirection: 'row'}}>
+          <Text numberOfLines={1} style={styles.description}>
+            Veg Rating: {task.vegRating}
+          </Text>
+        </View>
+        <Text numberOfLines={NUM_OF_LINES} style={styles.description}>
           {task.description}
         </Text>
       </View>
-      <Pressable onPress={onDelete} style={styles.deleteButton}>
-        <Text style={styles.deleteText}>Delete</Text>
-      </Pressable>
+      <View style={styles.deleteButtonContainer}>
+        <Icon name = 'trash' color = {colors.red} onPress={onDelete} style = {styles.icon}/>
+      </View>
     </View>
   );
 });
 
 const styles = StyleSheet.create({
   task: {
-    height: 50,
+    height: 140,
     alignSelf: "stretch",
     flexDirection: "row",
     marginVertical: 8,
@@ -40,6 +47,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: colors.black,
     fontSize: 17,
+    marginBottom: 10,
   },
   status: {
     width: 50,
@@ -52,18 +60,13 @@ const styles = StyleSheet.create({
   completed: {
     backgroundColor: colors.purple,
   },
-  deleteButton: {
+  deleteButtonContainer: {
     justifyContent: "center",
   },
-  deleteText: {
-    marginHorizontal: 10,
-    color: colors.gray,
-    fontSize: 17,
-  },
   icon: {
-    color: colors.white,
     textAlign: "center",
-    fontSize: 17,
+    fontSize: 35,
     fontWeight: "bold",
+    marginHorizontal: 20,
   },
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { TaskItem } from "./TaskItem";
 
-export const TaskList = ({ tasks, onToggleTaskStatus, onDeleteTask }) => {
+export const TaskList = ({ tasks, onDeleteTask }) => {
   return (
     <View style={styles.listContainer}>
       <FlatList

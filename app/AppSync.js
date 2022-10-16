@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useApp, useUser } from "@realm/react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View, SafeAreaView, } from "react-native";
 
 import { Task } from "./models/Task";
 import { TaskRealmContext } from "./models";
@@ -31,10 +31,10 @@ export const AppSync = () => {
 
   return (
     <>
-      <Text style={styles.idText}>Syncing with app id: {app.id}</Text>
+      <Text color = {colors.white} style = {styles.resturauntTitle}>Olive Garden</Text>
       <TaskManager tasks={tasks} userId={user?.id} />
       <Pressable style={styles.authButton} onPress={handleLogout}>
-        <Text style={styles.authButtonText}>{`Logout ${user?.profile.email}`}</Text>
+        <Text style={styles.authButtonText}>{`Logout`}</Text>
       </Pressable>
     </>
   );
@@ -52,5 +52,13 @@ const styles = StyleSheet.create({
   },
   authButtonText: {
     ...buttonStyles.text,
+  },
+  resturauntTitle: {
+    justifyContent: 'center',
+    marginHorizontal: '30.5%',
+    marginBottom: 20,
+    fontSize: 25,
+    fontWeight: 'bold',
+    //fontFamily: 'bold',
   },
 });

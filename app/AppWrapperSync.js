@@ -1,11 +1,12 @@
 import React from "react";
 import { AppProvider, UserProvider } from "@realm/react";
 import { SafeAreaView, StyleSheet } from "react-native";
-
 import { TaskRealmContext } from "./models";
 import { LoginScreen } from "./components/LoginScreen";
 import colors from "./styles/colors";
 import { AppSync } from "./AppSync";
+import { SignUp } from "./components/SignUp"
+import { MyStack } from "./components/SignupStack"
 
 export const AppWrapperSync = ({ appId }) => {
   const { RealmProvider } = TaskRealmContext;
@@ -14,7 +15,7 @@ export const AppWrapperSync = ({ appId }) => {
   return (
     <SafeAreaView style={styles.screen}>
       <AppProvider id={appId}>
-        <UserProvider fallback={LoginScreen}>
+        <UserProvider fallback={MyStack}>
           <RealmProvider sync={{ flexible: true }}>
             <AppSync />
           </RealmProvider>
@@ -27,7 +28,7 @@ export const AppWrapperSync = ({ appId }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: colors.darkBlue,
+    backgroundColor: 'rgba(0, 204, 104, 1)',
   },
 });
 
