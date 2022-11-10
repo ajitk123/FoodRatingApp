@@ -1,10 +1,11 @@
 import { createRealmContext } from "@realm/react";
-import { Task } from "./Task";
+import { Review } from "./Review";
+import { UserProfile } from "./UserProfile";
 
-export const TaskRealmContext = createRealmContext({
-  schema: [Task],
+export const ReviewRealmContext = createRealmContext({
+  schema: [Review],
 });
 
-/*export const UserProfileRealmContext = createRealmContext({
+export const UserProfileRealmContext = createRealmContext({
   schema: [UserProfile],
-})*/
+})

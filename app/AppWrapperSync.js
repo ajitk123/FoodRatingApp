@@ -1,15 +1,13 @@
 import React from "react";
 import { AppProvider, UserProvider } from "@realm/react";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { TaskRealmContext } from "./models";
-import { LoginScreen } from "./components/LoginScreen";
+import { ReviewRealmContext } from "./models";
 import colors from "./styles/colors";
 import { AppSync } from "./AppSync";
-import { SignUp } from "./components/SignUp"
 import { MyStack } from "./components/SignupStack"
 
 export const AppWrapperSync = ({ appId }) => {
-  const { RealmProvider } = TaskRealmContext;
+  const { RealmProvider } = ReviewRealmContext;
 
   // If we are logged in, add the sync configuration the the RealmProvider and render the app
   return (
@@ -24,6 +22,12 @@ export const AppWrapperSync = ({ appId }) => {
     </SafeAreaView>
   );
 };
+
+const config = {
+  sync: {
+    flexible: true,
+  }
+}
 
 const styles = StyleSheet.create({
   screen: {

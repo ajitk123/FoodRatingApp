@@ -2,26 +2,26 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { useApp, useUser } from "@realm/react";
 import { Pressable, StyleSheet, Text, View, SafeAreaView, } from "react-native";
 
-import { Task } from "./models/Task";
-import { TaskRealmContext } from "./models";
-import { TaskManager } from "./components/TaskManager";
+import { Review } from "./models/Review";
+import { ReviewRealmContext } from "./models";
+import { ReviewManager } from "./components/ReviewManager";
 import { buttonStyles } from "./styles/button";
 import { shadows } from "./styles/shadows";
 import colors from "./styles/colors";
 
-const { useRealm, useQuery } = TaskRealmContext;
+const { useRealm, useQuery } = ReviewRealmContext;
 
 export const AppSync = () => {
   const realm = useRealm();
   const user = useUser();
   const app = useApp();
-  const result = useQuery(Task);
+  const result = useQuery(Review);
 
   const tasks = useMemo(() => result.sorted("createdAt"), [result]);
 
   useEffect(() => {
     realm.subscriptions.update((mutableSubs) => {
-      mutableSubs.add(realm.objects(Task));
+      mutableSubs.add(realm.objects(Review));
     });
   }, [realm, result]);
 
@@ -32,7 +32,7 @@ export const AppSync = () => {
   return (
     <>
       <Text color = {colors.white} style = {styles.resturauntTitle}>Olive Garden</Text>
-      <TaskManager tasks={tasks} userId={user?.id} />
+      <ReviewManager tasks={tasks} userId={user?.id} />
       <Pressable style={styles.authButton} onPress={handleLogout}>
         <Text style={styles.authButtonText}>{`Logout`}</Text>
       </Pressable>
@@ -59,6 +59,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 25,
     fontWeight: 'bold',
-    //fontFamily: 'bold',
   },
 });

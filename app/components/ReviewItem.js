@@ -6,9 +6,7 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 
 const NUM_OF_LINES = 5;
 
-export const TaskItem = React.memo(({ task, onDelete }) => {
-
-
+export const ReviewItem = React.memo(({ task, onDelete }) => {
 
   return (
     <View style={styles.task}>

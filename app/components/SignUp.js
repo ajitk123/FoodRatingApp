@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import colors from "../styles/colors";
 import { shadows } from "../styles/shadows";
 import { buttonStyles } from "../styles/button";
-import { Realm, useApp } from "@realm/react";
+import { Realm, useApp, useUser } from "@realm/react";
 
 export let AuthState;
 
@@ -17,13 +17,19 @@ export let AuthState;
 export const SignUp = () => {
 
   const app = useApp();
+  const user = useUser();
+  
+  // Get a client object for your app's custom user data collection
+  //const mongo = user.mongoClient("mongodb-atlas");
+  //const collection = mongo.db("todo").collection("userdata");
+
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setPasswordConfirmation] = useState("");
   const [authState, setAuthState] = useState(AuthState.None);
-
+  
     // If the user presses "register" from the auth screen, try to register a
   // new account with the  supplied credentials and login as the newly created user
   const handleRegister = useCallback(async () => {
@@ -32,7 +38,7 @@ export const SignUp = () => {
     try {
       
         if(confirmPassword!=password) {
-            throw "Passwords do not Match";
+          setAuthState(AuthState.PasswordMismatch);
         }
         // Register the user...
       await app.emailPasswordAuth.registerUser({ email, password });
@@ -40,6 +46,10 @@ export const SignUp = () => {
       const credentials = Realm.Credentials.emailPassword(email, password);
 
       await app.logIn(credentials);
+      
+      // Refresh the user's local customData property
+      console.log(user.customData());
+
       setAuthState(AuthState.None);
     } catch (e) {
       console.log("Error registering", e);
@@ -113,14 +123,6 @@ export const SignUp = () => {
           placeholder="Confirm Password"
         />
       </View>
-
-      {authState === AuthState.PasswordMismatch && (
-        <Text style={[styles.error]}>Error: Passwords do not Match</Text>
-      )}
-      {authState === AuthState.RegisterError && (
-        <Text style={[styles.error]}>There was an error registering, please try again</Text>
-      )}
-
       <View style={styles.buttons}>
         <Pressable
           onPress={handleRegister}
@@ -129,6 +131,12 @@ export const SignUp = () => {
         >
           <Text style={buttonStyles.text}>Register</Text>
         </Pressable>
+        {authState === AuthState.PasswordMismatch && (
+        <Text style={[styles.error]}>Error: Passwords do not Match</Text>
+      )}
+      {authState === AuthState.RegisterError && (
+        <Text style={[styles.error]}>There was an error registering, please try again</Text>
+      )}
       </View>
     </View>
   );

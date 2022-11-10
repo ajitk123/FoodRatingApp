@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
 
-import { Task } from "./models/Task";
-import { TaskRealmContext } from "./models";
-import { TaskManager } from "./components/TaskManager";
+import { Review } from "./models/Review";
+import { ReviewRealmContext } from "./models";
+import { ReviewManager } from "./components/ReviewManager";
 
-const { useQuery } = TaskRealmContext;
+const { useQuery } = ReviewRealmContext;
 
 export const AppNonSync = () => {
-  const result = useQuery(Task);
+  const result = useQuery(Review);
 
   const tasks = useMemo(() => result.sorted("createdAt"), [result]);
 
-  return <TaskManager tasks={tasks} />;
+  return <ReviewManager tasks={tasks} />;
 };

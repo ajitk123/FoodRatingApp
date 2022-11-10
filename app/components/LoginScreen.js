@@ -5,7 +5,6 @@ import { shadows } from "../styles/shadows";
 import { buttonStyles } from "../styles/button";
 import { Realm, useApp } from "@realm/react";
 import { SignUp } from "./SignUp.js";
-import { navigation } from '@react-navigation/native'
 
 export let AuthState;
 
@@ -31,26 +30,6 @@ export const LoginScreen = props => {
     } catch (e) {
       console.log("Error logging in", e);
       setAuthState(AuthState.LoginError);
-    }
-  }, [email, password, setAuthState, app]);
-
-  // If the user presses "register" from the auth screen, try to register a
-  // new account with the  supplied credentials and login as the newly created user
-  const handleRegister = useCallback(async () => {
-    setAuthState(AuthState.Loading);
-
-    try {
-
-      // Register the user...
-      await app.emailPasswordAuth.registerUser({ email, password });
-      // ...then login with the newly created user
-      const credentials = Realm.Credentials.emailPassword(email, password);
-
-      await app.logIn(credentials);
-      setAuthState(AuthState.None);
-    } catch (e) {
-      console.log("Error registering", e);
-      setAuthState(AuthState.RegisterError);
     }
   }, [email, password, setAuthState, app]);
   

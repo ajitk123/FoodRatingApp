@@ -1,15 +1,15 @@
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import { TaskItem } from "./TaskItem";
+import { ReviewItem } from "./ReviewItem";
 
-export const TaskList = ({ tasks, onDeleteTask }) => {
+export const ReviewList = ({ tasks, onDeleteTask }) => {
   return (
     <View style={styles.listContainer}>
       <FlatList
         data={tasks}
         keyExtractor={(task) => task._id.toString()}
         renderItem={({ item }) => (
-          <TaskItem
+          <ReviewItem
             task={item}
             onToggleStatus={() => onToggleTaskStatus(item)}
             onDelete={() => onDeleteTask(item)}
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskList;
+export default ReviewList;
