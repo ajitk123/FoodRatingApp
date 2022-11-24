@@ -1,0 +1,28 @@
+{
+    "bsonType": "object",
+    "primaryKey": "_id",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "createdAt": {
+            "bsonType": "object"
+        },
+        "description": {
+            "bsonType": "string"
+        },
+        "resturaunt": {
+            "bsonType": "string"
+        },
+        "userId": {
+            "bsonType": "string"
+        },
+        "vegRating": {
+            "bsonType": "number"
+        }
+    },
+    "required": [
+        "vegRating"
+    ],
+    "title": "Review"
+}
