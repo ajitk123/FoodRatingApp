@@ -2,7 +2,6 @@ import React from "react";
 import { AppProvider, UserProvider } from "@realm/react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { ReviewRealmContext } from "./models";
-import colors from "./styles/colors";
 import { AppSync } from "./AppSync";
 import { MyStack } from "./components/SignupStack"
 
@@ -13,7 +12,7 @@ export const AppWrapperSync = ({ appId }) => {
   return (
     <SafeAreaView style={styles.screen}>
       <AppProvider id={appId}>
-        <UserProvider fallback={MyStack}>
+        <UserProvider fallback={ MyStack }>
           <RealmProvider sync={{ flexible: true }}>
             <AppSync />
           </RealmProvider>

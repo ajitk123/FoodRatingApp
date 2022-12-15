@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: 'rgba(0, 204, 104, 1)',
+    backgroundColor: colors.white,
   },
 
   inputContainer: {

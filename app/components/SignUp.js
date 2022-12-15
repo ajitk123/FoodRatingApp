@@ -17,11 +17,6 @@ export let AuthState;
 export const SignUp = () => {
 
   const app = useApp();
-  const user = useUser();
-  
-  // Get a client object for your app's custom user data collection
-  //const mongo = user.mongoClient("mongodb-atlas");
-  //const collection = mongo.db("todo").collection("userdata");
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -38,7 +33,7 @@ export const SignUp = () => {
     try {
       
         if(confirmPassword!=password) {
-          setAuthState(AuthState.PasswordMismatch);
+          throw new error("passwords do not match");
         }
         // Register the user...
       await app.emailPasswordAuth.registerUser({ email, password });
@@ -46,9 +41,6 @@ export const SignUp = () => {
       const credentials = Realm.Credentials.emailPassword(email, password);
 
       await app.logIn(credentials);
-      
-      // Refresh the user's local customData property
-      console.log(user.customData());
 
       setAuthState(AuthState.None);
     } catch (e) {
@@ -148,7 +140,7 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: 'rgba(0, 204, 104, 1)',
+      backgroundColor: colors.white,
     },
   
     inputContainer: {

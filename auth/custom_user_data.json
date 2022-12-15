@@ -1,7 +1,0 @@
-{
-    "enabled": true,
-    "mongo_service_name": "mongodb-atlas",
-    "database_name": "todo",
-    "collection_name": "userdata",
-    "user_id_field": "userId"
-}
