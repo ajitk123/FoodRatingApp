@@ -14,7 +14,6 @@ const { useRealm, useQuery } = ReviewRealmContext;
 export const AppSync = () => {
   const realm = useRealm();
   const user = useUser();
-  const app = useApp();
   const result = useQuery(Review);
 
   const tasks = useMemo(() => result.sorted("createdAt"), [result]);
