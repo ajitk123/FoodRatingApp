@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import colors from "../styles/colors";
 import { shadows } from "../styles/shadows";
 import { buttonStyles } from "../styles/button";
-import { Realm, useApp, useUser } from "@realm/react";
+import { Realm, useApp} from "@realm/react";
 
 export let AuthState;
 
@@ -44,7 +44,7 @@ export const SignUp = () => {
 
       setAuthState(AuthState.None);
     } catch (e) {
-      console.log("Error registering", e);
+      console.log(e);
       setAuthState(AuthState.RegisterError);
     }
 

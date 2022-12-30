@@ -20,7 +20,7 @@ export const ReviewManager = ({ tasks, userId }) => {
         return;
       }
       realm.write(() => {
-        realm.create("Review", Review.generate(vegRating, description, userId));
+        realm.create("Review", Review.generate("olive garden", vegRating, description, userId));
       });
     },
     [realm, userId], // renders function when these components change

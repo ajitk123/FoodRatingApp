@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "react";
-import { useApp, useUser } from "@realm/react";
+import { useApp, useRealm, useQuery, useUser } from "@realm/react";
 import { Pressable, StyleSheet, Text, View, SafeAreaView, } from "react-native";
 
 import { Review } from "./models/Review";
@@ -8,8 +8,6 @@ import { ReviewManager } from "./components/ReviewManager";
 import { buttonStyles } from "./styles/button";
 import { shadows } from "./styles/shadows";
 import colors from "./styles/colors";
-
-const { useRealm, useQuery } = ReviewRealmContext;
 
 export const AppSync = () => {
   const realm = useRealm();
