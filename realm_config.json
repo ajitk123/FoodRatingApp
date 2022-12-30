@@ -1,7 +1,7 @@
 {
-    "app_id": "foodratingapp-bcvuh",
+    "app_id": "foodapp-smilf",
     "config_version": 20210101,
-    "name": "FoodRatingApp",
+    "name": "FoodApp",
     "location": "US-VA",
     "provider_region": "aws-us-east-1",
     "deployment_model": "LOCAL"
