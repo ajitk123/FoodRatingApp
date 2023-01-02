@@ -1,8 +1,8 @@
 {
-    "name": "mongodb-atlas",
+    "name": "VegPal_service",
     "type": "mongodb-atlas",
     "config": {
-        "clusterName": "Cluster0",
+        "clusterName": "VegPal",
         "readPreference": "primary",
         "wireProtocolEnabled": false
     },
