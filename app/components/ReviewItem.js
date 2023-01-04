@@ -6,18 +6,18 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 
 const NUM_OF_LINES = 5;
 
-export const ReviewItem = React.memo(({ task, onDelete }) => {
+export const ReviewItem = React.memo(({ review, onDelete }) => {
 
   return (
     <View style={styles.task}>
       <View style={styles.descriptionContainer}>
         <View style = {{flexDirection: 'row'}}>
           <Text numberOfLines={1} style={styles.description}>
-            Veg Rating: {task.vegRating}
+            Veg Rating: {review.vegRating}
           </Text>
         </View>
         <Text numberOfLines={NUM_OF_LINES} style={styles.description}>
-          {task.description}
+          {review.description}
         </Text>
       </View>
       <View style={styles.deleteButtonContainer}>

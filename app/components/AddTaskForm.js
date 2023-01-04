@@ -13,7 +13,7 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
   const [description, setDescription] = useState(Description);
   const [rating, setRating] = useState(Rating);
 
-  const handleSubmit = () => {
+  const SubmitAndRefresh = () => {
     onSubmit(description, rating);
     Description = 0;
     Rating = 0;
@@ -45,16 +45,16 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
         />
         <Text style = {styles.headerText}>Comments</Text>
         <TextInput
+          style={styles.textInput}
           value={description}
           placeholder="Ex. The veggie burgers we're amazing!"
           onChangeText={setDescription}
           autoCorrect={false}
           autoCapitalize="none"
-          style={styles.textInput}
           multiline = {true}
           numberOfLines = {3}
         />
-        <TouchableOpacity disabled = {rating == 0 || description == 0} activeOpacity={0} onPress={handleSubmit} style={styles.submit}>
+        <TouchableOpacity disabled = {rating == 0} activeOpacity={0} onPress={SubmitAndRefresh} style={styles.submit}>
           <Text style={styles.icon}>Submit</Text>
         </TouchableOpacity>
       </View>

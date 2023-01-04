@@ -16,12 +16,17 @@ export const buttonStyles = {
     fontSize: 17,
     fontWeight: "bold",
   },
-  loginText: {
-    color: colors.white,
-    textAlign: "left",
+  customSignUpText: {
+    color: colors.purple,
+    textAlign: "center",
     fontSize: 17,
     fontWeight: "bold",
+  },
+  loginText: {
+    color: colors.black,
+    textAlign: "left",
+    fontSize: 17,
     flexDirection: "row",
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   }
 };

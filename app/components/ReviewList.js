@@ -2,15 +2,15 @@ import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { ReviewItem } from "./ReviewItem";
 
-export const ReviewList = ({ tasks, onDeleteTask }) => {
+export const ReviewList = ({ reviews, onDeleteTask }) => {
   return (
     <View style={styles.listContainer}>
       <FlatList
-        data={tasks}
-        keyExtractor={(task) => task._id.toString()}
+        data={reviews}
+        keyExtractor={(review) => review._id.toString()}
         renderItem={({ item }) => (
           <ReviewItem
-            task={item}
+            review={item}
             onToggleStatus={() => onToggleTaskStatus(item)}
             onDelete={() => onDeleteTask(item)}
             // Don't spread the Realm item as such: {...item}

@@ -10,7 +10,7 @@ import colors from "../styles/colors.js";
 
 const { useRealm } = ReviewRealmContext;
 
-export const ReviewManager = ({ tasks, userId }) => {
+export const ReviewManager = ({ reviews, userId }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const realm = useRealm();
 
@@ -20,10 +20,10 @@ export const ReviewManager = ({ tasks, userId }) => {
         return;
       }
       realm.write(() => {
-        realm.create("Review", Review.generate("olive garden", vegRating, description, userId));
+        realm.create("Review", Review.generate('ajit','kandasamy','olive garden', vegRating, description, userId));
       });
     },
-    [realm, userId], // renders function when these components change
+    [realm, userId], // rerenders function when these components change
   );
 
   const handleDeleteReview = useCallback(
@@ -49,7 +49,7 @@ export const ReviewManager = ({ tasks, userId }) => {
         >
           <AddTaskForm onSubmit = {handleAddReview} visibleControl = {setModalVisible} />
         </Modal>
-        <ReviewList tasks={tasks} onDeleteTask={handleDeleteReview} />
+        <ReviewList reviews={reviews} onDeleteTask={handleDeleteReview} />
       </SafeAreaView>
     <Pressable onPress={() => setModalVisible(true)} style={styles.modalButton}>
       <Icon name = "plus" style={styles.icon} color = {colors.purpleDark}/>

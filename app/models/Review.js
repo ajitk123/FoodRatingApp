@@ -1,9 +1,11 @@
 import { Realm } from "@realm/react";
 export class Review extends Realm.Object {
-  static generate(resturaunt, vegRating, description, userId) {
+  static generate(firstName, lastName, restaurant, vegRating, description, userId) {
     return {
       _id: new Realm.BSON.ObjectId(),
-      resturaunt,
+      firstName,
+      lastName,
+      restaurant,
       description,
       vegRating,
       createdAt: new Date(),
@@ -17,7 +19,9 @@ export class Review extends Realm.Object {
     primaryKey: '_id',
     properties: {
       _id: 'objectId',
-      resturant: 'string',
+      firstName: 'string',
+      lastName: 'string',
+      restaurant: 'string',
       vegRating: 'int',
       description: 'string',
       createdAt: 'date',

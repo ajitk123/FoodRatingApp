@@ -1,6 +1,5 @@
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
-
 import { ReviewRealmContext } from "./models";
 import colors from "./styles/colors";
 import { AppNonSync } from "./AppNonSync";
