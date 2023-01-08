@@ -1,41 +1,54 @@
 import React from "react";
-import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { shadows } from "../styles/shadows";
 import colors from "../styles/colors";
 import Icon from 'react-native-vector-icons/EvilIcons';
+import { useUser } from "@realm/react";
+import StarRating from 'react-native-star-rating';
 
-const NUM_OF_LINES = 5;
+const NUM_OF_LINES = 3;
 
 export const ReviewItem = React.memo(({ review, onDelete }) => {
+  const { user } = useUser();
+
+  // Check whether the current user's ID matches the user ID stored in the review object
+  const showDeleteButton = user?.id === review.userID;
 
   return (
     <View style={styles.task}>
       <View style={styles.descriptionContainer}>
-        <View style = {{flexDirection: 'row'}}>
-          <Text numberOfLines={1} style={styles.description}>
-            Veg Rating: {review.vegRating}
-          </Text>
+        <View style={{ flexDirection: "row" }}>
+          <StarRating
+            disabled={true}
+            maxStars={5}
+            rating={review.vegRating}
+            starSize = {15}
+            containerStyle = {styles.starContainer}
+          />
         </View>
         <Text numberOfLines={NUM_OF_LINES} style={styles.description}>
           {review.description}
         </Text>
       </View>
-      <View style={styles.deleteButtonContainer}>
-        <Icon name = 'trash' color = {colors.red} onPress={onDelete} style = {styles.icon}/>
-      </View>
+      {showDeleteButton && (
+        <View style={styles.deleteButtonContainer}>
+          <Icon name="trash" color={colors.red} onPress={onDelete} style={styles.icon} />
+        </View>
+      )}
     </View>
   );
 });
 
+
 const styles = StyleSheet.create({
   task: {
-    height: 140,
+    padding: 10,
     alignSelf: "stretch",
     flexDirection: "row",
-    marginVertical: 8,
     backgroundColor: colors.white,
-    borderRadius: 5,
-    ...shadows,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: colors.gray,
   },
   descriptionContainer: {
     flex: 1,
@@ -45,18 +58,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: colors.black,
     fontSize: 17,
-    marginBottom: 10,
-  },
-  status: {
-    width: 50,
-    height: "100%",
-    justifyContent: "center",
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-    backgroundColor: colors.gray,
-  },
-  completed: {
-    backgroundColor: colors.purple,
   },
   deleteButtonContainer: {
     justifyContent: "center",
@@ -66,5 +67,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "bold",
     marginHorizontal: 20,
+  },
+  starContainer: {
+    marginLeft: 10,
   },
 });

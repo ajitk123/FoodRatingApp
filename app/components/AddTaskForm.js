@@ -1,15 +1,19 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Pressable, Platform, StyleSheet, SafeAreaView } from "react-native";
+import React, { useRef, useState } from "react";
+import { KeyboardAvoidingView, Text, ScrollView, TextInput, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { buttonStyles } from "../styles/button";
 import colors from "../styles/colors";
 import { shadows } from "../styles/shadows";
 import Icon from 'react-native-vector-icons/AntDesign';
 import StarRating from 'react-native-star-rating';
 
+
 var Description = '';
 var Rating = 0;
 
 export const AddTaskForm = ({ onSubmit, visibleControl }) => {
+
+  // Create a ref to store the input value
+  const textInputRef = useRef('');
   const [description, setDescription] = useState(Description);
   const [rating, setRating] = useState(Rating);
 
@@ -30,63 +34,69 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
   
  
   return (
-    <SafeAreaView style={styles.form}>
+    <ScrollView style={styles.form}>
       <Icon name = 'close' style = {styles.close} onPress = {() => saveProgress()}/>
-      <View style = {styles.inputContainer}>
-        <Text style = {styles.headerText}>Veg Rating</Text>
+      <KeyboardAvoidingView style = {styles.inputContainer}>
+        <Text style = {styles.headerText}>How vegetarian friendly was this restaraunt?</Text>
         <StarRating
           disabled={false}
           maxStars={5}
           rating={rating}
           selectedStar={(rating) => setRating(rating)}
           starSize = {20}
-          starStyle = {styles.star}
           containerStyle = {styles.starContainer}
         />
         <Text style = {styles.headerText}>Comments</Text>
         <TextInput
+          ref={textInputRef}
           style={styles.textInput}
           value={description}
           placeholder="Ex. The veggie burgers we're amazing!"
           onChangeText={setDescription}
+          // Limit the input to 500 words or fewer
+          maxLength={50 * 6}
           autoCorrect={false}
           autoCapitalize="none"
-          multiline = {true}
-          numberOfLines = {3}
+          multiline={true}
+          // Set the number of lines dynamically based on the height of the content
+          onContentSizeChange={(event) => {
+            textInputRef.current.setNativeProps({
+              numberOfLines: Math.ceil(event.nativeEvent.contentSize.height / 18),
+            });
+          }}
         />
-        <TouchableOpacity disabled = {rating == 0} activeOpacity={0} onPress={SubmitAndRefresh} style={styles.submit}>
+        <Pressable disabled = {rating == 0 || description == ""} onPress={SubmitAndRefresh} 
+        style={[styles.submit, rating == 0 || description == "" && buttonStyles.buttonDisabled]}>
           <Text style={styles.icon}>Submit</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        </Pressable>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   
-  star: {
-    alignContent: 'center',
-  },
-  
   form: {
     borderRadius: 25,
     marginTop: 80,
     marginHorizontal: 10,
-    height: "45%",
+    height: null,
     backgroundColor: colors.white,
     ...shadows,
   },
 
   textInput: {
-    height: '45%',
     marginHorizontal: 15,
     borderWidth: 1,
+    borderColor: colors.gray,
     padding: 10,
-    fontSize: 15,
+    fontSize: 18,
+    minHeight: 180,
   },
 
   inputContainer: {
     flexDirection: "column",
+    height: null,
   },
 
   submit: {
@@ -101,7 +111,7 @@ const styles = StyleSheet.create({
   },
 
   starContainer: {
-    padding: 10,
+    paddingHorizontal: 50,
   },
 
   icon: {
@@ -119,7 +129,7 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 20,
     marginHorizontal: 15,
-    marginBottom: 10
+    marginBottom: 10,
   },
 
 });

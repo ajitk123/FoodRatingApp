@@ -28,5 +28,8 @@ export const buttonStyles = {
     fontSize: 17,
     flexDirection: "row",
     marginHorizontal: 5,
-  }
+  },
+  buttonDisabled: {
+    opacity: 0.5,
+  },
 };

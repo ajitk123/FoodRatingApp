@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from "react";
-import { SafeAreaView, StyleSheet, Modal, Pressable } from "react-native";
-import Icon from 'react-native-vector-icons/Entypo';
+import { View, SafeAreaView, StyleSheet, Modal, Pressable } from "react-native";
 import { Review } from "../models/Review";
 import { ReviewRealmContext } from "../models";
 import { AddTaskForm } from "./AddTaskForm";
 import ReviewList from "./ReviewList";
 import { shadows } from "../styles/shadows";
 import colors from "../styles/colors.js";
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 const { useRealm } = ReviewRealmContext;
 
@@ -37,7 +37,7 @@ export const ReviewManager = ({ reviews, userId }) => {
 
   return (
     <SafeAreaView style = {styles.content}>
-      <SafeAreaView style={styles.taskList}>
+      <View style={styles.taskList}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -49,42 +49,36 @@ export const ReviewManager = ({ reviews, userId }) => {
         >
           <AddTaskForm onSubmit = {handleAddReview} visibleControl = {setModalVisible} />
         </Modal>
-        <ReviewList reviews={reviews} onDeleteTask={handleDeleteReview} />
-      </SafeAreaView>
-    <Pressable onPress={() => setModalVisible(true)} style={styles.modalButton}>
-      <Icon name = "plus" style={styles.icon} color = {colors.purpleDark}/>
-    </Pressable>
+        <ReviewList currentUser = {userId} reviews={reviews} onDeleteTask={handleDeleteReview} />
+      </View>
+      <Pressable onPress={() => setModalVisible(true)} style={styles.modalButton}>
+        <MaterialIcons name="rate-review" size={40} color={colors.white} />
+      </Pressable>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  
-  icon: {
-    fontSize:55,
-    fontWeight: "bold",
-  },
 
   content: {
     flex: 1,
-    marginTop: 40,
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
   },
 
   taskList: {
     flex: 1,
-    paddingTop: 20,
     paddingHorizontal: 20,
   },
 
   modalButton: {
-    flexDirection: 'column',
-    borderRadius: 200,
-    width: 70,
-    height: 70,
-    padding: 5,
-    alignItems: 'center',
-    margin: 30,
-    backgroundColor: colors.white,
+    position: 'absolute',
+    bottom: 20,
+    left: 25,
+    borderRadius: 100,
+    padding: 15,
+    alignSelf: 'flex-end',
+    backgroundColor: colors.green,
     ...shadows,
   },
 
