@@ -1,4 +1,5 @@
 import { Realm } from "@realm/react";
+
 export class Review extends Realm.Object {
   static generate(firstName, lastName, restaurant, vegRating, description, userId) {
     return {
@@ -12,8 +13,7 @@ export class Review extends Realm.Object {
       userId: userId || "_SYNC_DISABLED_",
     };
   }
-
-  // To use a class as a Realm object type, define the object schema on the static property "schema".
+  
   static schema = {
     name: 'Review',
     primaryKey: '_id',
@@ -23,7 +23,7 @@ export class Review extends Realm.Object {
       lastName: 'string',
       restaurant: 'string',
       vegRating: 'int',
-      description: 'string',
+      description: 'string', // set default value for description
       createdAt: 'date',
       userId: 'string',
     },

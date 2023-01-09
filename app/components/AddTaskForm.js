@@ -66,7 +66,7 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
           }}
         />
         <Pressable disabled = {rating == 0 || description == ""} onPress={SubmitAndRefresh} 
-        style={[styles.submit, rating == 0 || description == "" && buttonStyles.buttonDisabled]}>
+        style={[styles.submit, (rating == 0 || description == "") && buttonStyles.buttonDisabled]}>
           <Text style={styles.icon}>Submit</Text>
         </Pressable>
       </KeyboardAvoidingView>
