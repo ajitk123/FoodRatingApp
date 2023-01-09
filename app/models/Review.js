@@ -23,9 +23,18 @@ export class Review extends Realm.Object {
       lastName: 'string',
       restaurant: 'string',
       vegRating: 'int',
-      description: 'string', // set default value for description
+      description: 'string',
       createdAt: 'date',
       userId: 'string',
     },
+    required: {
+      _id: 'objectId',
+      firstName: 'string',
+      lastName: 'string',
+      restaurant: 'string',
+      vegRating: 'int',
+      createdAt: 'date',
+      userId: 'string',
+    }
   };
 }
