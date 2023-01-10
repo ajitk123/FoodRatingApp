@@ -4,9 +4,13 @@ import React from 'react';
 import {registerRootComponent} from 'expo';
 import {AppWrapperSync} from './app/AppWrapperSync';
 
-const App = () =>
-  (
-    <AppWrapperSync appId={"foodratingapp-loblu"} />
-  );
+const App = () => {
+  try {
+    return (<AppWrapperSync appId={"foodratingapp-loblu"} />);
+  } catch(e) {
+      console.log(e);
+  }
+}
+
 
 registerRootComponent(App);

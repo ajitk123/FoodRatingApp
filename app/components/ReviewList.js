@@ -3,7 +3,9 @@ import { View, FlatList, StyleSheet } from "react-native";
 import { ReviewItem } from "./ReviewItem";
 
 export const ReviewList = ({ reviews, onDeleteTask }) => {
+  
   const ItemSeparator = () => <View style={styles.separator} />;
+
   return (
     <View style={styles.listContainer}>
       <FlatList

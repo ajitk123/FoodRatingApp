@@ -14,16 +14,16 @@ export const ReviewManager = ({ reviews, userId }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const realm = useRealm();
 
-  const handleAddReview = useCallback( // only calls when realm makes a new object
+  const handleAddReview = useCallback(
     (description, vegRating) => {
-      if (!description || !vegRating) {
+      if (!vegRating || !description) {
         return;
       }
       realm.write(() => {
-        realm.create("Review", Review.generate('ajit','kandasamy','olive garden', vegRating, description, userId));
+        realm.create("Review", Review.generate("ajit", "kandasamy", "olive garden", vegRating, description, userId));
       });
     },
-    [realm, userId], // rerenders function when these components change
+    [realm, userId],
   );
 
   const handleDeleteReview = useCallback(

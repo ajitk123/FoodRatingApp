@@ -10,7 +10,7 @@ export class Review extends Realm.Object {
       description,
       vegRating,
       createdAt: new Date(),
-      userId: userId || "_SYNC_DISABLED_",
+      userId: userId,
     };
   }
   

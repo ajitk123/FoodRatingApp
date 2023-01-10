@@ -6,6 +6,11 @@ import { FallbackStack } from "./fallback/SignupStack"
 import { ReviewRealmContext } from "./models";
 import colors from './styles/colors';
 
+syncConfig = {
+  flexible: true,
+  onError: error => console.error(error)
+}
+
 const AppWrapperSync = ({ appId }) => {
   const { RealmProvider } = ReviewRealmContext;
 
@@ -14,7 +19,7 @@ const AppWrapperSync = ({ appId }) => {
       <AppProvider id={appId}>
         <UserProvider fallback={FallbackStack}>
           <RealmProvider sync={syncConfig}>
-            <AppSync />;
+            <AppSync />
           </RealmProvider>
         </UserProvider>
       </AppProvider>
@@ -22,10 +27,6 @@ const AppWrapperSync = ({ appId }) => {
   );
 };
 
-syncConfig = {
-  flexible: true,
-  onError: error => console.error(error)
-}
 
 const styles = StyleSheet.create({
   screen: {
