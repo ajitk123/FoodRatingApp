@@ -6,13 +6,18 @@ import { FallbackStack } from "./fallback/SignupStack"
 import { ReviewRealmContext } from "./models";
 import colors from './styles/colors';
 
-syncConfig = {
-  flexible: true,
-  onError: error => console.error(error)
-}
 
-const AppWrapperSync = ({ appId }) => {
+
+
+export const AppWrapperSync = ({ appId }) => {
   const { RealmProvider } = ReviewRealmContext;
+  syncConfig = {
+    flexible: true,
+    onError: error => console.error(error),
+    clientReset: {
+      mode: "recoverOrDiscardUnsyncedChanges",
+    },
+  }  
 
   return (
     <SafeAreaView style={styles.screen}>
