@@ -1,47 +1,79 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import { shadows } from "../styles/shadows";
 import colors from "../styles/colors";
-import Icon from 'react-native-vector-icons/EvilIcons';
-import { useUser } from "@realm/react";
+import { AntDesign } from '@expo/vector-icons';
 import StarRating from 'react-native-star-rating';
+import { Entypo } from '@expo/vector-icons';
+import { DateFormat } from './DateFormat';
 
-const NUM_OF_LINES = 3;
+export const ReviewItem = React.memo(({ review, onDelete, isMyReview }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const needsAbbrevation = review.description.length > 200;
+  const abbreviatedText = needsAbbrevation ? review.description.slice(0, 200)
+   + "..." : review.description;
 
-export const ReviewItem = React.memo(({ review, onDelete }) => {
-  const { user } = useUser();
-
-  // Check whether the current user's ID matches the user ID stored in the review object
-  const showDeleteButton = user?.id === review.userID;
 
   return (
-    <View style={styles.task}>
+    <View style={styles.review}>
       <View style={styles.descriptionContainer}>
+        <Text style = {styles.name}>{review.firstName} {review.lastName}</Text>
+        <DateFormat date = {review.createdAt} style = {styles.date}/>
         <View style={{ flexDirection: "row" }}>
           <StarRating
             disabled={true}
             maxStars={5}
             rating={review.vegRating}
-            starSize = {15}
-            containerStyle = {styles.starContainer}
+            starSize={15}
+            containerStyle={styles.starContainer}
           />
         </View>
-        <Text numberOfLines={NUM_OF_LINES} style={styles.description}>
-          {review.description}
+        <Text
+          style={styles.description}
+        >
+          {isExpanded ? review.description : abbreviatedText}
         </Text>
+        {needsAbbrevation &&
+          <Pressable
+            style={styles.moreLessButtonContainer}
+            onPress={() => setIsExpanded(!isExpanded)}
+          >
+            <Text style={styles.moreLessButton}>
+              Show {isExpanded ? "less" : "more"}
+            </Text>
+          </Pressable>
+        }
       </View>
-      {showDeleteButton && (
-        <View style={styles.deleteButtonContainer}>
-          <Icon name="trash" color={colors.red} onPress={onDelete} style={styles.icon} />
-        </View>
+      
+      {isMyReview && (
+        <Pressable style={styles.deleteButtonContainer}>
+          <Entypo name="dots-three-vertical" size={24} color="gray" />
+        </Pressable>
       )}
     </View>
   );
 });
 
-
 const styles = StyleSheet.create({
-  task: {
+  // ... existing styles ...
+  name: {
+    marginHorizontal: 10,
+    fontSize: 18,
+  },
+  date: {
+    marginHorizontal: 10,
+    marginBottom: 5,
+    color: colors.darkGray,
+  },
+  moreLessButtonContainer: {
+    marginHorizontal: 15,
+    marginTop: 5,
+    alignSelf: "flex-start",
+  },
+  moreLessButton: {
+    color: colors.linkBlue,
+    fontWeight: '600',
+  },
+  review: {
     padding: 10,
     alignSelf: "stretch",
     flexDirection: "row",

@@ -10,6 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const { useRealm } = ReviewRealmContext;
 
+
 export const ReviewManager = ({ reviews, userId }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const realm = useRealm();
@@ -37,18 +38,18 @@ export const ReviewManager = ({ reviews, userId }) => {
 
   return (
     <SafeAreaView style = {styles.content}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <AddTaskForm onSubmit = {handleAddReview} visibleControl = {setModalVisible} />
+      </Modal>
       <View style={styles.taskList}>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <AddTaskForm onSubmit = {handleAddReview} visibleControl = {setModalVisible} />
-        </Modal>
         <ReviewList currentUser = {userId} reviews={reviews} onDeleteTask={handleDeleteReview} />
       </View>
       <Pressable onPress={() => setModalVisible(true)} style={styles.modalButton}>

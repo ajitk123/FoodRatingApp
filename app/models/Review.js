@@ -7,7 +7,7 @@ export class Review extends Realm.Object {
       firstName,
       lastName,
       restaurant,
-      description,
+      description: description,
       vegRating,
       createdAt: new Date(),
       userId: userId,

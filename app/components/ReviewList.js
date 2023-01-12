@@ -2,7 +2,7 @@ import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { ReviewItem } from "./ReviewItem";
 
-export const ReviewList = ({ reviews, onDeleteTask }) => {
+export const ReviewList = ({ currentUser, reviews, onDeleteTask }) => {
   
   const ItemSeparator = () => <View style={styles.separator} />;
 
@@ -15,9 +15,8 @@ export const ReviewList = ({ reviews, onDeleteTask }) => {
         renderItem={({ item }) => (
           <ReviewItem
             review={item}
-            onToggleStatus={() => onToggleTaskStatus(item)}
             onDelete={() => onDeleteTask(item)}
-            // Don't spread the Realm item as such: {...item}
+            isMyReview = {currentUser === item.userId}
           />
         )}
       />

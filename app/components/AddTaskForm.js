@@ -37,7 +37,7 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
     <ScrollView style={styles.form}>
       <Icon name = 'close' style = {styles.close} onPress = {() => saveProgress()}/>
       <KeyboardAvoidingView style = {styles.inputContainer}>
-        <Text style = {styles.headerText}>How vegetarian friendly was this restaraunt?</Text>
+        <Text style = {styles.headerText}>How vegetarian friendly were the menu options?</Text>
         <StarRating
           disabled={false}
           maxStars={5}
@@ -54,14 +54,14 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
           placeholder="Ex. The veggie burgers we're amazing!"
           onChangeText={setDescription}
           // Limit the input to 500 words or fewer
-          maxLength={50 * 6}
+          maxLength={500 * 6}
           autoCorrect={false}
           autoCapitalize="none"
           multiline={true}
           // Set the number of lines dynamically based on the height of the content
           onContentSizeChange={(event) => {
             textInputRef.current.setNativeProps({
-              numberOfLines: Math.ceil(event.nativeEvent.contentSize.height / 18),
+              numberOfLines: Math.ceil(event.nativeEvent.contentSize.height / 15),
             });
           }}
         />
@@ -77,12 +77,13 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
 const styles = StyleSheet.create({
   
   form: {
-    borderRadius: 25,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.gray,
+    height: 20,
     marginTop: 80,
     marginHorizontal: 10,
-    height: null,
     backgroundColor: colors.white,
-    ...shadows,
   },
 
   textInput: {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.gray,
     padding: 10,
-    fontSize: 18,
+    fontSize: 15,
     minHeight: 180,
   },
 

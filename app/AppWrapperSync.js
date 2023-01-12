@@ -14,9 +14,6 @@ export const AppWrapperSync = ({ appId }) => {
   syncConfig = {
     flexible: true,
     onError: error => console.error(error),
-    clientReset: {
-      mode: "recoverOrDiscardUnsyncedChanges",
-    },
   }  
 
   return (
