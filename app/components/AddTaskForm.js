@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { KeyboardAvoidingView, Text, ScrollView, TextInput, Pressable, StyleSheet, SafeAreaView } from "react-native";
+import React, { useState } from "react";
+import { View, KeyboardAvoidingView, Text, ScrollView, TextInput, Pressable, StyleSheet, SafeAreaView } from "react-native";
 import { buttonStyles } from "../styles/button";
 import colors from "../styles/colors";
 import { shadows } from "../styles/shadows";
@@ -12,8 +12,6 @@ var Rating = 0;
 
 export const AddTaskForm = ({ onSubmit, visibleControl }) => {
 
-  // Create a ref to store the input value
-  const textInputRef = useRef('');
   const [description, setDescription] = useState(Description);
   const [rating, setRating] = useState(Rating);
 
@@ -34,7 +32,7 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
   
  
   return (
-    <ScrollView style={styles.form}>
+    <View style={styles.form}>
       <Icon name = 'close' style = {styles.close} onPress = {() => saveProgress()}/>
       <KeyboardAvoidingView style = {styles.inputContainer}>
         <Text style = {styles.headerText}>How vegetarian friendly were the menu options?</Text>
@@ -48,7 +46,6 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
         />
         <Text style = {styles.headerText}>Comments</Text>
         <TextInput
-          ref={textInputRef}
           style={styles.textInput}
           value={description}
           placeholder="Ex. The veggie burgers we're amazing!"
@@ -58,19 +55,13 @@ export const AddTaskForm = ({ onSubmit, visibleControl }) => {
           autoCorrect={false}
           autoCapitalize="none"
           multiline={true}
-          // Set the number of lines dynamically based on the height of the content
-          onContentSizeChange={(event) => {
-            textInputRef.current.setNativeProps({
-              numberOfLines: Math.ceil(event.nativeEvent.contentSize.height / 15),
-            });
-          }}
         />
         <Pressable disabled = {rating == 0 || description == ""} onPress={SubmitAndRefresh} 
         style={[styles.submit, (rating == 0 || description == "") && buttonStyles.buttonDisabled]}>
           <Text style={styles.icon}>Submit</Text>
         </Pressable>
       </KeyboardAvoidingView>
-    </ScrollView>
+    </View>
   );
 };
 

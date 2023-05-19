@@ -43,7 +43,6 @@ export const ReviewItem = React.memo(({ review, onDelete, isMyReview }) => {
           </Pressable>
         }
       </View>
-      
       {isMyReview && (
         <Pressable style={styles.deleteButtonContainer}>
           <Entypo name="dots-three-vertical" size={24} color="gray" />
