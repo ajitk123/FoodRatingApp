@@ -1,23 +1,25 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import colors from "../styles/colors";
-import { AntDesign } from '@expo/vector-icons';
-import StarRating from 'react-native-star-rating';
-import { Entypo } from '@expo/vector-icons';
-import { DateFormat } from './DateFormat';
+import StarRating from "react-native-star-rating";
+import { Entypo } from "@expo/vector-icons";
+import { DateFormat } from "./DateFormat";
 
 export const ReviewItem = React.memo(({ review, onDelete, isMyReview }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const needsAbbrevation = review.description.length > 200;
-  const abbreviatedText = needsAbbrevation ? review.description.slice(0, 200)
-   + "..." : review.description;
-
+  const needsAbbreviation = review.description.length > 200;
+  const abbreviatedText = needsAbbreviation
+    ? review.description.slice(0, 200) + "..."
+    : review.description;
 
   return (
     <View style={styles.review}>
       <View style={styles.descriptionContainer}>
-        <Text style = {styles.name}>{review.firstName} {review.lastName}</Text>
-        <DateFormat date = {review.createdAt} style = {styles.date}/>
+        <Text style={styles.restaurantName}>{review.restaurant}</Text>
+        <Text style={styles.name}>
+          {review.firstName} {review.lastName}
+        </Text>
+        <DateFormat date={review.createdAt} style={styles.date} />
         <View style={{ flexDirection: "row" }}>
           <StarRating
             disabled={true}
@@ -27,12 +29,10 @@ export const ReviewItem = React.memo(({ review, onDelete, isMyReview }) => {
             containerStyle={styles.starContainer}
           />
         </View>
-        <Text
-          style={styles.description}
-        >
+        <Text style={styles.description}>
           {isExpanded ? review.description : abbreviatedText}
         </Text>
-        {needsAbbrevation &&
+        {needsAbbreviation && (
           <Pressable
             style={styles.moreLessButtonContainer}
             onPress={() => setIsExpanded(!isExpanded)}
@@ -41,10 +41,13 @@ export const ReviewItem = React.memo(({ review, onDelete, isMyReview }) => {
               Show {isExpanded ? "less" : "more"}
             </Text>
           </Pressable>
-        }
+        )}
       </View>
       {isMyReview && (
-        <Pressable style={styles.deleteButtonContainer}>
+        <Pressable
+          style={styles.deleteButtonContainer}
+          onPress={() => onDelete()}
+        >
           <Entypo name="dots-three-vertical" size={24} color="gray" />
         </Pressable>
       )}
@@ -53,7 +56,13 @@ export const ReviewItem = React.memo(({ review, onDelete, isMyReview }) => {
 });
 
 const styles = StyleSheet.create({
-  // ... existing styles ...
+  restaurantName: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.purple,
+    marginBottom: 2,
+  },
   name: {
     marginHorizontal: 10,
     fontSize: 18,
@@ -70,7 +79,7 @@ const styles = StyleSheet.create({
   },
   moreLessButton: {
     color: colors.linkBlue,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   review: {
     padding: 10,
@@ -92,12 +101,6 @@ const styles = StyleSheet.create({
   },
   deleteButtonContainer: {
     justifyContent: "center",
-  },
-  icon: {
-    textAlign: "center",
-    fontSize: 35,
-    fontWeight: "bold",
-    marginHorizontal: 20,
   },
   starContainer: {
     marginLeft: 10,
