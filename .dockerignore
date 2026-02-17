@@ -1,0 +1,11 @@
+node_modules
+web-build
+dist
+.expo
+.git
+.github
+terraform
+coverage
+*.md
+.DS_Store
+.env*

@@ -8,6 +8,13 @@
     ],
     "ios": {
       "bundleIdentifier": "com.myFoodFltr.test"
+    },
+    "web": {
+      "bundler": "webpack",
+      "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.myFoodFltr.test"
     }
   }
 }

@@ -113,3 +113,27 @@ web-build/
 dist/
 
 # @end expo-cli
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/*.tfplan
+terraform/tfplan
+terraform/.terraform.lock.hcl
+terraform/state-bootstrap/.terraform/
+terraform/state-bootstrap/*.tfstate
+terraform/state-bootstrap/*.tfstate.backup
+
+# Coverage
+coverage/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+*.swp
+*.swo

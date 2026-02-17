@@ -1,0 +1,63 @@
+name: Terraform Destroy (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment to destroy"
+        required: true
+        type: choice
+        options:
+          - staging
+          - prod
+      confirm:
+        description: "Type 'DESTROY' to confirm"
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  destroy:
+    name: Destroy ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'DESTROY'
+    environment: ${{ github.event.inputs.environment }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.5"
+
+      - name: Terraform Init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Empty S3 bucket
+        working-directory: terraform
+        run: |
+          BUCKET=$(terraform output -raw s3_bucket_name 2>/dev/null || echo "")
+          if [ -n "$BUCKET" ]; then
+            aws s3 rm "s3://$BUCKET" --recursive || true
+          fi
+
+      - name: Terraform Destroy
+        working-directory: terraform
+        run: |
+          terraform destroy \
+            -var-file="environments/${{ github.event.inputs.environment }}/terraform.tfvars" \
+            -auto-approve \
+            -input=false
